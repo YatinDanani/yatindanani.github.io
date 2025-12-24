@@ -300,39 +300,6 @@
             opacity: 0.5;
         }
 
-        .stats-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #ff003c;
-            padding: 1rem;
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
-            backdrop-filter: blur(10px);
-        }
-
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.85rem;
-        }
-
-        .stat-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .stat-label {
-            color: #999;
-        }
-
-        .stat-value {
-            color: #ff003c;
-            font-weight: 700;
-        }
-
         .section {
             padding: 6rem 2rem;
             position: relative;
@@ -497,6 +464,54 @@
             border: 1px solid #8000ff;
             font-size: 0.85rem;
             font-family: 'Orbitron', monospace;
+        }
+
+        .project-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid #ff003c;
+            color: #ff003c;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 60, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .project-btn:hover {
+            background: rgba(255, 0, 60, 0.1);
+            border-color: #ff003c;
+            transform: translateX(5px);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+        }
+
+        .project-btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .project-btn:hover .btn-icon {
+            transform: translateX(-5px);
         }
 
         .tech-stack-section {
@@ -720,20 +735,6 @@
                                 <img src="profile.jpg" alt="Yatin Danani" class="profile-image">
                             </div>
                         </div>
-                        <div class="stats-overlay">
-                            <div class="stat-item">
-                                <span class="stat-label">UNIVERSITY:</span>
-                                <span class="stat-value">UVIC CS</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">PROJECTS:</span>
-                                <span class="stat-value">3+ COMPLETED</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">STATUS:</span>
-                                <span class="stat-value">HACKATHON WINNER</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -768,6 +769,9 @@
                         <span class="tech-tag">MongoDB</span>
                         <span class="tech-tag">Nylas API</span>
                     </div>
+                    <a href="https://github.com/YatinDanani" target="_blank" rel="noopener noreferrer" class="project-btn">
+                        <span class="btn-icon">←</span> VIEW CODE
+                    </a>
                 </div>
 
                 <!-- Project 2: Medical Clinic System -->
@@ -793,6 +797,9 @@
                         <span class="tech-tag">JSON</span>
                         <span class="tech-tag">Git</span>
                     </div>
+                    <a href="https://github.com/YatinDanani/Medical-Clinic-System--" target="_blank" rel="noopener noreferrer" class="project-btn">
+                        <span class="btn-icon">←</span> VIEW CODE
+                    </a>
                 </div>
 
                 <!-- Project 3: QR Code Generator -->
@@ -815,6 +822,9 @@
                         <span class="tech-tag">HTML</span>
                         <span class="tech-tag">CSS</span>
                     </div>
+                    <a href="https://github.com/YatinDanani" target="_blank" rel="noopener noreferrer" class="project-btn">
+                        <span class="btn-icon">←</span> VIEW CODE
+                    </a>
                 </div>
             </div>
         </section>
