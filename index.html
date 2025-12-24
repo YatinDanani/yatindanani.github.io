@@ -466,9 +466,15 @@
             font-family: 'Orbitron', monospace;
         }
 
+        .project-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
         .project-btn {
             display: inline-block;
-            margin-top: 1.5rem;
             padding: 0.75rem 1.5rem;
             background: transparent;
             border: 2px solid #ff003c;
@@ -483,6 +489,11 @@
             overflow: hidden;
         }
 
+        .project-btn-live {
+            border-color: #8000ff;
+            color: #8000ff;
+        }
+
         .project-btn::before {
             content: '';
             position: absolute;
@@ -494,11 +505,21 @@
             transition: left 0.5s ease;
         }
 
+        .project-btn-live::before {
+            background: linear-gradient(90deg, transparent, rgba(128, 0, 255, 0.3), transparent);
+        }
+
         .project-btn:hover {
             background: rgba(255, 0, 60, 0.1);
             border-color: #ff003c;
             transform: translateX(5px);
             box-shadow: 0 0 20px rgba(255, 0, 60, 0.4);
+        }
+
+        .project-btn-live:hover {
+            background: rgba(128, 0, 255, 0.1);
+            border-color: #8000ff;
+            box-shadow: 0 0 20px rgba(128, 0, 255, 0.4);
         }
 
         .project-btn:hover::before {
@@ -512,6 +533,10 @@
 
         .project-btn:hover .btn-icon {
             transform: translateX(-5px);
+        }
+
+        .project-btn-live:hover .btn-icon {
+            transform: translateX(5px);
         }
 
         .tech-stack-section {
@@ -822,9 +847,14 @@
                         <span class="tech-tag">HTML</span>
                         <span class="tech-tag">CSS</span>
                     </div>
-                    <a href="https://github.com/YatinDanani" target="_blank" rel="noopener noreferrer" class="project-btn">
-                        <span class="btn-icon">←</span> VIEW CODE
-                    </a>
+                    <div class="project-buttons">
+                        <a href="https://github.com/YatinDanani" target="_blank" rel="noopener noreferrer" class="project-btn">
+                            <span class="btn-icon">←</span> VIEW CODE
+                        </a>
+                        <a href="https://webhome.csc.uvic.ca/~yatindanani/fullmarks.html" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-live">
+                            <span class="btn-icon">→</span> LIVE DEMO
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
