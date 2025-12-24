@@ -233,6 +233,32 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
         }
 
+        .btn-resume {
+            background: #8000ff;
+            color: #fff;
+            clip-path: polygon(0 0, 100% 0, calc(100% - 15px) 100%, 0 100%);
+        }
+
+        .btn-resume::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-resume:hover::before {
+            left: 100%;
+        }
+
+        .btn-resume:hover {
+            box-shadow: 0 0 30px rgba(128, 0, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
         .hero-right {
             position: relative;
             animation: slideInRight 1s ease-out 0.5s both;
@@ -749,6 +775,7 @@
                     </p>
                     <div class="cta-buttons">
                         <a href="#projects" class="btn btn-primary">View Projects</a>
+                        <a href="YD%27s%20Resume.pdf" class="btn btn-resume" download>Download Resume</a>
                         <a href="#contact" class="btn btn-secondary">Contact</a>
                     </div>
                 </div>
