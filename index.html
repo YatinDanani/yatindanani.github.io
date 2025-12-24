@@ -774,7 +774,6 @@
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-name">Medical Clinic System</h3>
-                        <span class="project-status">DEPLOYED</span>
                     </div>
                     <p class="project-description">
                         Comprehensive medical clinic management system with AI-powered clinical note classification for efficient patient care.
@@ -800,7 +799,6 @@
                 <div class="project-card">
                     <div class="project-header">
                         <h3 class="project-name">QR Code Generator</h3>
-                        <span class="project-status">DEPLOYED</span>
                     </div>
                     <p class="project-description">
                         Responsive web application for generating QR codes with cross-browser compatibility and input validation.
@@ -827,83 +825,27 @@
                 <h2 class="section-title">Arsenal</h2>
             </div>
             <div class="skills-grid" id="skillsGrid">
-                <!-- Programming Languages -->
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Programming Languages</h3>
-                    <div class="skills-tags">
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">R</span>
-                        <span class="skill-tag">HTML</span>
-                        <span class="skill-tag">CSS</span>
-                        <span class="skill-tag">Ruby</span>
-                    </div>
-                </div>
-
                 <!-- Frontend Technologies -->
                 <div class="skill-category">
                     <h3 class="skill-category-title">Frontend Development</h3>
-                    <div class="skill-item" data-skill-level="90">
-                        <div class="skill-header">
-                            <span class="skill-name">React</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item" data-skill-level="85">
-                        <div class="skill-header">
-                            <span class="skill-name">JavaScript</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item" data-skill-level="85">
-                        <div class="skill-header">
-                            <span class="skill-name">HTML & CSS</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 85%"></div>
-                        </div>
+                    <div class="skills-tags">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
                     </div>
                 </div>
 
                 <!-- Backend Technologies -->
                 <div class="skill-category">
                     <h3 class="skill-category-title">Backend Development</h3>
-                    <div class="skill-item" data-skill-level="85">
-                        <div class="skill-header">
-                            <span class="skill-name">Node.js</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item" data-skill-level="80">
-                        <div class="skill-header">
-                            <span class="skill-name">Express</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 80%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item" data-skill-level="80">
-                        <div class="skill-header">
-                            <span class="skill-name">Python</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 80%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item" data-skill-level="75">
-                        <div class="skill-header">
-                            <span class="skill-name">Machine Learning</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar" style="--skill-width: 75%"></div>
-                        </div>
+                    <div class="skills-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">R</span>
+                        <span class="skill-tag">Ruby</span>
+                        <span class="skill-tag">Machine Learning</span>
                     </div>
                 </div>
 
@@ -912,6 +854,7 @@
                     <h3 class="skill-category-title">Tools & Technologies</h3>
                     <div class="skills-tags">
                         <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">SQL</span>
                         <span class="skill-tag">Git</span>
                         <span class="skill-tag">PyQt6</span>
                         <span class="skill-tag">Jekyll</span>
@@ -965,12 +908,6 @@
         document.querySelectorAll('.project-card').forEach((card, index) => {
             card.style.animationDelay = `${index * 0.2}s`;
             observer.observe(card);
-        });
-
-        // Observe skill items
-        document.querySelectorAll('.skill-item').forEach((skill, index) => {
-            skill.style.animationDelay = `${index * 0.1}s`;
-            observer.observe(skill);
         });
 
         // Smooth scrolling for anchor links
