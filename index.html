@@ -388,12 +388,31 @@
             box-shadow: 0 0 20px rgba(255, 0, 60, 0.6);
         }
 
-        .projects-grid {
+        .projects-container {
             max-width: 1400px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .projects-wrapper {
+            display: flex;
             gap: 2rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+            padding: 1rem 0;
+        }
+
+        .projects-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .projects-grid {
+            display: flex;
+            gap: 2rem;
+            min-width: 100%;
         }
 
         .project-card {
@@ -407,6 +426,8 @@
             overflow: hidden;
             opacity: 0;
             transform: translateX(-50px);
+            min-width: calc(50% - 1rem); /* Show 2 projects at a time */
+            flex-shrink: 0;
         }
 
         .project-card.visible {
@@ -593,6 +614,43 @@
             transform: translateX(5px);
         }
 
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 0, 60, 0.3);
+            border: 2px solid #ff003c;
+            color: #ff003c;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+        }
+
+        .carousel-nav:hover {
+            background: rgba(255, 0, 60, 0.6);
+            box-shadow: 0 0 20px rgba(255, 0, 60, 0.8);
+        }
+
+        .carousel-nav.prev {
+            left: 10px;
+        }
+
+        .carousel-nav.next {
+            right: 10px;
+        }
+
+        .carousel-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
         .tech-stack-section {
             background: rgba(10, 10, 10, 0.5);
             border-top: 2px solid #ff003c;
@@ -769,8 +827,14 @@
                 font-size: 2.5rem;
             }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
+            .project-card {
+                min-width: 100%; /* Show 1 project on mobile */
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
             }
 
             .contact-links {
@@ -826,7 +890,10 @@
             <div class="section-header">
                 <h2 class="section-title">Mission Logs</h2>
             </div>
-            <div class="projects-grid" id="projectsGrid">
+            <div class="projects-container">
+                <button class="carousel-nav prev" id="prevBtn">‹</button>
+                <div class="projects-wrapper" id="projectsWrapper">
+                    <div class="projects-grid" id="projectsGrid">
                 <!-- Project 1: Hackathon Winner -->
                 <div class="project-card">
                     <div class="project-header">
@@ -912,6 +979,9 @@
                         </a>
                     </div>
                 </div>
+                    </div>
+                </div>
+                <button class="carousel-nav next" id="nextBtn">›</button>
             </div>
         </section>
 
@@ -981,7 +1051,6 @@
         </section>
 
         <footer>
-            <p>&copy; 2024 Yatin Danani. All rights reserved. | Computer Science @ UVic</p>
         </footer>
     </div>
 
@@ -1005,6 +1074,56 @@
             card.style.animationDelay = `${index * 0.2}s`;
             observer.observe(card);
         });
+
+        // Carousel Navigation
+        const wrapper = document.getElementById('projectsWrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function scrollCarousel(direction) {
+            const scrollAmount = wrapper.offsetWidth;
+            wrapper.scrollBy({
+                left: direction === 'next' ? scrollAmount : -scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        prevBtn.addEventListener('click', () => scrollCarousel('prev'));
+        nextBtn.addEventListener('click', () => scrollCarousel('next'));
+
+        // Update button states based on scroll position
+        function updateButtons() {
+            const isAtStart = wrapper.scrollLeft === 0;
+            const isAtEnd = wrapper.scrollLeft + wrapper.offsetWidth >= wrapper.scrollWidth - 10;
+            
+            prevBtn.disabled = isAtStart;
+            nextBtn.disabled = isAtEnd;
+        }
+
+        wrapper.addEventListener('scroll', updateButtons);
+        updateButtons(); // Initial state
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        wrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        wrapper.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                scrollCarousel('next');
+            }
+            if (touchEndX > touchStartX + 50) {
+                scrollCarousel('prev');
+            }
+        }
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
