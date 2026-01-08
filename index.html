@@ -392,7 +392,6 @@
             max-width: 1400px;
             margin: 0 auto;
             position: relative;
-            overflow: hidden;
         }
 
         .projects-wrapper {
@@ -403,16 +402,31 @@
             scrollbar-width: none; /* Firefox */
             -ms-overflow-style: none; /* IE/Edge */
             padding: 1rem 0;
+            scroll-snap-type: x mandatory;
         }
 
         .projects-wrapper::-webkit-scrollbar {
             display: none; /* Chrome/Safari */
         }
 
+        /* Gradient fade on right edge to hint more content */
+        .projects-container::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 100px;
+            background: linear-gradient(to left, rgba(10, 10, 10, 1) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 10;
+        }
+
         .projects-grid {
             display: flex;
             gap: 2rem;
             min-width: 100%;
+            padding-right: 150px; /* Extra padding to show peek */
         }
 
         .project-card {
@@ -424,21 +438,9 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            transform: translateX(-50px);
-            min-width: calc(50% - 1rem); /* Show 2 projects at a time */
+            min-width: calc(47% - 1rem); /* Slightly less than 50% to show peek */
             flex-shrink: 0;
-        }
-
-        .project-card.visible {
-            animation: slideInCard 0.6s ease-out forwards;
-        }
-
-        @keyframes slideInCard {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            scroll-snap-align: start;
         }
 
         .project-card::before {
@@ -612,43 +614,6 @@
 
         .project-btn-live:hover .btn-icon {
             transform: translateX(5px);
-        }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 0, 60, 0.3);
-            border: 2px solid #ff003c;
-            color: #ff003c;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
-        }
-
-        .carousel-nav:hover {
-            background: rgba(255, 0, 60, 0.6);
-            box-shadow: 0 0 20px rgba(255, 0, 60, 0.8);
-        }
-
-        .carousel-nav.prev {
-            left: 10px;
-        }
-
-        .carousel-nav.next {
-            right: 10px;
-        }
-
-        .carousel-nav:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
         }
 
         .tech-stack-section {
@@ -827,14 +792,16 @@
                 font-size: 2.5rem;
             }
 
-            .project-card {
-                min-width: 100%; /* Show 1 project on mobile */
+            .projects-container {
+                gap: 0.5rem;
             }
 
-            .carousel-nav {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
+            .projects-container::after {
+                width: 50px; /* Smaller fade on mobile */
+            }
+
+            .project-card {
+                min-width: 95%; /* Show 1 project on mobile with slight peek */
             }
 
             .contact-links {
@@ -891,7 +858,6 @@
                 <h2 class="section-title">Mission Logs</h2>
             </div>
             <div class="projects-container">
-                <button class="carousel-nav prev" id="prevBtn">‹</button>
                 <div class="projects-wrapper" id="projectsWrapper">
                     <div class="projects-grid" id="projectsGrid">
                 <!-- Project 1: Hackathon Winner -->
@@ -981,7 +947,6 @@
                 </div>
                     </div>
                 </div>
-                <button class="carousel-nav next" id="nextBtn">›</button>
             </div>
         </section>
 
@@ -1055,7 +1020,7 @@
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Intersection Observer for scroll animations
+        // Intersection Observer for scroll animations (not needed for carousel)
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1069,59 +1034,32 @@
             });
         }, observerOptions);
 
-        // Observe project cards
-        document.querySelectorAll('.project-card').forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.2}s`;
-            observer.observe(card);
-        });
-
-        // Carousel Navigation
+        // Touch/Swipe support for projects carousel
         const wrapper = document.getElementById('projectsWrapper');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
+        
+        if (wrapper) {
+            let touchStartX = 0;
+            let touchEndX = 0;
 
-        function scrollCarousel(direction) {
-            const scrollAmount = wrapper.offsetWidth;
-            wrapper.scrollBy({
-                left: direction === 'next' ? scrollAmount : -scrollAmount,
-                behavior: 'smooth'
+            wrapper.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
             });
-        }
 
-        prevBtn.addEventListener('click', () => scrollCarousel('prev'));
-        nextBtn.addEventListener('click', () => scrollCarousel('next'));
+            wrapper.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
 
-        // Update button states based on scroll position
-        function updateButtons() {
-            const isAtStart = wrapper.scrollLeft === 0;
-            const isAtEnd = wrapper.scrollLeft + wrapper.offsetWidth >= wrapper.scrollWidth - 10;
-            
-            prevBtn.disabled = isAtStart;
-            nextBtn.disabled = isAtEnd;
-        }
-
-        wrapper.addEventListener('scroll', updateButtons);
-        updateButtons(); // Initial state
-
-        // Touch/Swipe support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        wrapper.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        wrapper.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            if (touchEndX < touchStartX - 50) {
-                scrollCarousel('next');
-            }
-            if (touchEndX > touchStartX + 50) {
-                scrollCarousel('prev');
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                if (touchEndX < touchStartX - swipeThreshold) {
+                    // Swipe left - scroll right
+                    wrapper.scrollBy({ left: wrapper.offsetWidth * 0.8, behavior: 'smooth' });
+                }
+                if (touchEndX > touchStartX + swipeThreshold) {
+                    // Swipe right - scroll left
+                    wrapper.scrollBy({ left: -wrapper.offsetWidth * 0.8, behavior: 'smooth' });
+                }
             }
         }
 
